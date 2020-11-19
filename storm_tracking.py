@@ -14,13 +14,11 @@ args = vars(ap.parse_args())
 # ball in the HSV color space, then initialize the
 # list of tracked points
 
-limLower = (111, 0, 186)
+# limLower = (111, 0, 186)
+limLower = (88, 0, 195)
 limUpper = (255, 255, 255)
 
 input_data = cv2.VideoCapture(args["video"])
-
-# Reading the time in the beginning of the video.
-start = time.time()
 
 # keep looping
 while True:
@@ -68,7 +66,7 @@ while True:
 
     # show the frame to our screen
     cv2.imshow("Frame", frame)
-    key = cv2.waitKey(1) & 0xFF
+    key = cv2.waitKey(30) & 0xFF
 
     # if the 'q' key is pressed, stop the loop
     if key == ord("q"):
