@@ -1,11 +1,8 @@
-# import the necessary packages
 import argparse
 import time
-from collections import deque
 
 import cv2
 import imutils
-import numpy as np
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -13,16 +10,12 @@ ap.add_argument("-v", "--video", help="path to the (optional) video file")
 ap.add_argument("-b", "--buffer", type=int, default=64, help="max buffer size")
 args = vars(ap.parse_args())
 
-# define the lower and upper boundaries of the "green"
+# define the lower and upper boundaries of the color
 # ball in the HSV color space, then initialize the
 # list of tracked points
-# greenLower = (76, 0, 160)
-# greenUpper = (255, 30, 215)
 
-greenLower = (111, 0, 186)
-greenUpper = (255, 255, 255)
-
-pts = deque(maxlen=args["buffer"])
+limLower = (111, 0, 186)
+limUpper = (255, 255, 255)
 
 camera = cv2.VideoCapture(args["video"])
 
@@ -45,13 +38,12 @@ while True:
     # resize the frame, blur it, and convert it to the HSV
     # color space
     frame = imutils.resize(frame, width=1800)
-    # blurred = cv2.GaussianBlur(frame, (11, 11), 0)
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
-    # construct a mask for the color "green", then perform
+    # construct a mask for the color, then perform
     # a series of dilations and erosions to remove any small
     # blobs left in the mask
-    mask = cv2.inRange(hsv, greenLower, greenUpper)
+    mask = cv2.inRange(hsv, limLower, limUpper)
     mask = cv2.erode(mask, None, iterations=2)
     mask = cv2.dilate(mask, None, iterations=2)
 
@@ -76,21 +68,6 @@ while True:
             # then update the list of tracked points
             cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
-
-    # update the points queue
-    pts.appendleft(center)
-
-    # loop over the set of tracked points
-    for i in range(1, len(pts)):
-        # if either of the tracked points are None, ignore
-        # them
-        if pts[i - 1] is None or pts[i] is None:
-            continue
-
-        # otherwise, compute the thickness of the line and
-        # draw the connecting lines
-        thickness = int(np.sqrt(args["buffer"] / float(i + 1)) * 2.5)
-        # cv2.line(frame, pts[i - 1], pts[i], (0, 0, 255), thickness)
 
     # show the frame to our screen
     cv2.imshow("Frame", frame)
