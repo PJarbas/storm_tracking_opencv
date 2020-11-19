@@ -7,23 +7,30 @@ import imutils
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
 ap.add_argument("-v", "--video", help="path to the (optional) video file")
-ap.add_argument("-b", "--buffer", type=int, default=64, help="max buffer size")
+ap.add_argument("-exp", "--experiment", help="experiment number to run", type=int)
 args = vars(ap.parse_args())
 
 # define the lower and upper boundaries of the color
 # ball in the HSV color space, then initialize the
 # list of tracked points
 
-# limLower = (111, 0, 186)
-limLower = (88, 0, 195)
-limUpper = (255, 255, 255)
+experiment = {
+    1: [(0, 2, 39), (180, 186, 255)],
+    2: [(0, 2, 210), (117, 36, 255)],
+    3: [(0, 2, 224), (117, 36, 255)],
+    4: [(0, 2, 20), (117, 36, 255)],
+    5: [(64, 0, 190), (172, 100, 245)],
+    6: [(111, 0, 186), (255, 255, 255)],
+    7: [(88, 0, 195), (255, 255, 255)],
+}
+limLower, limUpper = experiment[args.get("experiment")]
 
-input_data = cv2.VideoCapture(args["video"])
+cap = cv2.VideoCapture(args["video"])
 
 # keep looping
 while True:
     # grab the current frame
-    (grabbed, frame) = input_data.read()
+    (grabbed, frame) = cap.read()
 
     # if we are viewing a video and we did not grab a frame,
     # then we have reached the end of the video
@@ -66,12 +73,13 @@ while True:
 
     # show the frame to our screen
     cv2.imshow("Frame", frame)
+
     key = cv2.waitKey(30) & 0xFF
 
     # if the 'q' key is pressed, stop the loop
     if key == ord("q"):
         break
 
-# cleanup the input_data and close any open windows
-input_data.release()
+# cleanup the cap and close any open windows
+cap.release()
 cv2.destroyAllWindows()
