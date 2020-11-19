@@ -17,7 +17,7 @@ args = vars(ap.parse_args())
 limLower = (111, 0, 186)
 limUpper = (255, 255, 255)
 
-camera = cv2.VideoCapture(args["video"])
+input_data = cv2.VideoCapture(args["video"])
 
 # Reading the time in the beginning of the video.
 start = time.time()
@@ -25,10 +25,7 @@ start = time.time()
 # keep looping
 while True:
     # grab the current frame
-    (grabbed, frame) = camera.read()
-
-    # Reading The Current Time
-    current_time = time.time() - start
+    (grabbed, frame) = input_data.read()
 
     # if we are viewing a video and we did not grab a frame,
     # then we have reached the end of the video
@@ -77,6 +74,6 @@ while True:
     if key == ord("q"):
         break
 
-# cleanup the camera and close any open windows
-camera.release()
+# cleanup the input_data and close any open windows
+input_data.release()
 cv2.destroyAllWindows()
