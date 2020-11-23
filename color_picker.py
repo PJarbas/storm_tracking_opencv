@@ -7,9 +7,11 @@ colors = []
 lower = np.array([0, 0, 0])
 upper = np.array([0, 0, 0])
 
+
 def on_mouse_click(event, x, y, flags, image):
     if event == cv2.EVENT_LBUTTONUP:
         colors.append(image[y,x].tolist())
+
 
 def on_trackbar_change(position):
     return
@@ -23,8 +25,8 @@ args = vars(parser.parse_args())
 
 # Parse lower and upper bounds arguments (--lower "1, 2, 3" --upper "4, 5, 6")
 if args["lower"] and args["upper"]:
-  lower = np.fromstring(args["lower"], sep=",")
-  upper = np.fromstring(args["upper"], sep=",")
+    lower = np.fromstring(args["lower"], sep=",")
+    upper = np.fromstring(args["upper"], sep=",")
 
 # Load image, resize to 600 width, and convert color to HSV
 image = cv2.imread(args["image"])
@@ -71,7 +73,7 @@ while True:
 cv2.destroyAllWindows()
 
 if not colors:
-  exit()
+    exit()
 
 minh = min(c[0] for c in colors)
 mins = min(c[1] for c in colors)

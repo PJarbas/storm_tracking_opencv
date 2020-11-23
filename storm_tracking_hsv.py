@@ -1,8 +1,10 @@
 import argparse
-import time
-
 import cv2
 import imutils
+
+"""
+This script use the hsv color space to tracking
+"""
 
 # construct the argument parse and parse the arguments
 ap = argparse.ArgumentParser()
@@ -11,7 +13,7 @@ ap.add_argument("-exp", "--experiment", help="experiment number to run", type=in
 args = vars(ap.parse_args())
 
 # define the lower and upper boundaries of the color
-# ball in the HSV color space, then initialize the
+# in the HSV color space, then initialize the
 # list of tracked points
 
 experiment = {
@@ -39,7 +41,7 @@ while True:
 
     # resize the frame, blur it, and convert it to the HSV
     # color space
-    frame = imutils.resize(frame, width=1800)
+    frame = imutils.resize(frame, width=900)
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # construct a mask for the color, then perform

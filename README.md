@@ -2,8 +2,10 @@
 Using opencv to tracking storms from videos inputs
 
 usage:
+
+Tracking with hsv and color space method
 ````bash
- python storm_tracking.py --video data/storm1.mp4
+ python storm_tracking_hsv.py --video data/storm1.mp4 --experiment 1
 ````
 
 To get the HSV range colors use
