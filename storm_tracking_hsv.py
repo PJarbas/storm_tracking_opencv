@@ -29,8 +29,12 @@ limLower, limUpper = experiment[args.get("experiment")]
 
 cap = cv2.VideoCapture(args["video"])
 
+# four_cc = cv2.VideoWriter_fourcc(*'mp4v')
+# fourcc = cv2.VideoWriter_fourcc(*'XVID')
+# out = cv2.VideoWriter("output.avi", four_cc, 20, (int(cap.get(3)), int(cap.get(4))))
+
 # keep looping
-while True:
+while cap.isOpened():
     # grab the current frame
     (grabbed, frame) = cap.read()
 
@@ -73,6 +77,9 @@ while True:
             cv2.circle(frame, (int(x), int(y)), int(radius), (0, 255, 255), 2)
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
+    # write the flipped frame
+    # out.write(frame)
+
     # show the frame to our screen
     cv2.imshow("Frame", frame)
 
@@ -84,4 +91,5 @@ while True:
 
 # cleanup the cap and close any open windows
 cap.release()
+# out.release()
 cv2.destroyAllWindows()
