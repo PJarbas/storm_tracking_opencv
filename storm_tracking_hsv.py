@@ -29,9 +29,12 @@ limLower, limUpper = experiment[args.get("experiment")]
 
 cap = cv2.VideoCapture(args["video"])
 
+w = int(cap.get(3))
+h = int(cap.get(4))
+
 # four_cc = cv2.VideoWriter_fourcc(*'mp4v')
-# fourcc = cv2.VideoWriter_fourcc(*'XVID')
-# out = cv2.VideoWriter("output.avi", four_cc, 20, (int(cap.get(3)), int(cap.get(4))))
+fourcc = cv2.VideoWriter_fourcc(*'XVID')
+out = cv2.VideoWriter('output.avi', fourcc, 20.0, (w, h))
 
 # keep looping
 while cap.isOpened():
@@ -45,7 +48,8 @@ while cap.isOpened():
 
     # resize the frame, blur it, and convert it to the HSV
     # color space
-    frame = imutils.resize(frame, width=900)
+    frame = cv2.resize(frame, (w, h), cv2.INTER_LANCZOS4)
+
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # construct a mask for the color, then perform
@@ -78,7 +82,7 @@ while cap.isOpened():
             cv2.circle(frame, center, 5, (0, 0, 255), -1)
 
     # write the flipped frame
-    # out.write(frame)
+    out.write(frame)
 
     # show the frame to our screen
     cv2.imshow("Frame", frame)
@@ -91,5 +95,5 @@ while cap.isOpened():
 
 # cleanup the cap and close any open windows
 cap.release()
-# out.release()
+out.release()
 cv2.destroyAllWindows()
