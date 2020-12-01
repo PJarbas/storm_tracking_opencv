@@ -32,9 +32,8 @@ cap = cv2.VideoCapture(args["video"])
 w = int(cap.get(3))
 h = int(cap.get(4))
 
-# four_cc = cv2.VideoWriter_fourcc(*'mp4v')
-fourcc = cv2.VideoWriter_fourcc(*'XVID')
-out = cv2.VideoWriter('output.avi', fourcc, 20.0, (w, h))
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+out = cv2.VideoWriter('output.mp4', fourcc, 20.0, (w, h))
 
 # keep looping
 while cap.isOpened():
